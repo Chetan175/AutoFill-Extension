@@ -1,25 +1,89 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import React, { useState } from 'react';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('login');
+
+  const handleTabSwitch = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="app">
+      <div className="tabs">
+        <button
+          className={`tab-button ${activeTab === 'login' ? 'active' : ''}`}
+          onClick={() => handleTabSwitch('login')}
         >
-          Learn React
-        </a>
-      </header>
+          Login
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'signup' ? 'active' : ''}`}
+          onClick={() => handleTabSwitch('signup')}
+        >
+          Sign Up
+        </button>
+      </div>
+
+      <div className="form-container">
+        {activeTab === 'login' ? (
+          <LoginForm />
+        ) : (
+          <SignupForm />
+        )}
+      </div>
     </div>
   );
 }
+
+const LoginForm = () => {
+  return (
+    <div className="form">
+      <h2>Login</h2>
+      <form>
+        <div>
+          <label>Username:</label>
+          <input placeholder="Enter your username"></input>
+        </div>
+        <div>
+          <label>Email:</label>
+          <input type="email" placeholder="Enter your email" />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" placeholder="Enter your password" />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+const SignupForm = () => {
+  return (
+    <div className="form">
+      <h2>Sign Up</h2>
+      <form>
+        <div>
+          <label>Name:</label>
+          <input type="text" placeholder="Enter your name" />
+        </div>
+        <div>
+          <label>Email:</label>
+          <input type="email" placeholder="Enter your email" />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input type="password" placeholder="Enter your password" />
+        </div>
+        <div>
+          <label>Confirm Password:</label>
+          <input type="password" placeholder="Confirm your password" />
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  );
+};
 
 export default App;

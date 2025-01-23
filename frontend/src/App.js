@@ -1,6 +1,6 @@
 /* global chrome */
 
-
+import './App.css';
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -33,6 +33,7 @@ const App = () => {
       });
 
       // Update parsed data state
+      console.log(response.data);
       setParsedData(response.data);
       alert("Resume parsed successfully!");
     } catch (error) {
@@ -62,43 +63,67 @@ const App = () => {
     });
   };
 
-  return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>Auto Job Filler</h1>
-      <input
-        type="file"
-        onChange={handleFileChange}
-        accept="application/pdf"
-        disabled={isLoading}
-      />
-      <button
-        onClick={handleFileUpload}
-        disabled={isLoading || !file}
-        style={{ marginLeft: "10px" }}
-      >
-        {isLoading ? "Uploading..." : "Upload and Parse Resume"}
-      </button>
 
+  return (
+    <div className="app-container">
+      {/* Top Navigation Bar */}
+      <div className="navbar">
+        <div className="left-section">
+          <select className="profile-dropdown">
+            <option value="profile1">Profile 1</option>
+            <option value="profile2">Profile 2</option>
+            <option value="profile3">Profile 3</option>
+          </select>
+        </div>
+        <h1 className="logo">Auto Job Filler</h1>
+        <button className="signout-btn">Sign Out</button>
+      </div>
+
+      {/* Center Content */}
+      <div className="center-content">
+        <div>
+          <img
+            className="image-preview"
+            src='/pdf.png'
+            alt=""
+            // alt={file ? "Preview" : "No file selected"}
+          />
+        </div>
+        <h2>{parsedData ? JSON.stringify(parsedData.fileName) : (!file)? "Select File":"Confirm Upload"}</h2>
+        <div class="select-upload-buttons">
+        <label className="choose-btn">
+          Choose File
+          <input
+            type="file"
+            onChange={handleFileChange}
+            accept="application/pdf"
+            disabled={isLoading}
+          />
+        </label>
+        <button
+          className="upload-btn"
+          onClick={handleFileUpload}
+          disabled={isLoading || !file}
+        >
+          {isLoading ? "Uploading..." : "Upload and Parse Resume"}
+        </button>
+        </div>
+      </div>
+
+      {/* Parsed Data Display */}
+      
       {parsedData && (
-        <div style={{ marginTop: "20px" }}>
+        <div className='Content'>
+        <div className="parsed-data">
           <h3>Parsed Data</h3>
           <pre>{JSON.stringify(parsedData, null, 2)}</pre>
-          <button onClick={handleSaveToStorage} style={{ marginTop: "10px" }}>
+          <button onClick={handleSaveToStorage} className="choose-btn">
             Save for Autofill
           </button>
-          <button
-            onClick={handleAutofill}
-            style={{
-              marginTop: "10px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              border: "none",
-              padding: "10px 20px",
-              cursor: "pointer",
-            }}
-          >
+          <button onClick={handleAutofill} className="upload-btn">
             Autofill Forms
           </button>
+        </div>
         </div>
       )}
     </div>

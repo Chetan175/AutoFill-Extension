@@ -20,6 +20,7 @@ router.post("/parse-resume", upload.single("resume"), async (req, res) => {
 
     // Example parsing logic (basic demo)
     const extractedData = {
+      fileName:req.file.originalname,
       name: extractName(pdfData.text),
       email: extractEmail(pdfData.text),
       phone: extractPhone(pdfData.text),

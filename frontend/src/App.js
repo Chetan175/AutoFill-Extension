@@ -50,19 +50,19 @@ const App = () => {
       alert("No parsed data to save.");
       return;
     }
-
+  
     chrome.storage.local.set({ parsedData }, () => {
+      console.log("Parsed data saved to storage:", parsedData);  // For debugging
       alert("Parsed data saved for autofill!");
     });
   };
 
-  // Trigger autofill on current webpage
+  // Trigger autofill on current webpage by sending message to content script
   const handleAutofill = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.tabs.sendMessage(tabs[0].id, { action: "autofill" });
     });
   };
-
 
   return (
     <div className="app-container">
@@ -85,50 +85,47 @@ const App = () => {
           <img
             className="image-preview"
             src='/pdf.png'
-            alt=""
-            // alt={file ? "Preview" : "No file selected"}
+            alt="File Preview"
           />
         </div>
         <h2>{parsedData ? JSON.stringify(parsedData.fileName) : (!file)? "Select File":"Confirm Upload"}</h2>
-        <div class="select-upload-buttons">
-        <label className="choose-btn">
-          Choose File
-          <input
-            type="file"
-            onChange={handleFileChange}
-            accept="application/pdf"
-            disabled={isLoading}
-          />
-        </label>
-        <button
-          className="upload-btn"
-          onClick={handleFileUpload}
-          disabled={isLoading || !file}
-        >
-          {isLoading ? "Uploading..." : "Upload and Parse Resume"}
-        </button>
+        <div className="select-upload-buttons">
+          <label className="choose-btn">
+            Choose File
+            <input
+              type="file"
+              onChange={handleFileChange}
+              accept="application/pdf"
+              disabled={isLoading}
+            />
+          </label>
+          <button
+            className="upload-btn"
+            onClick={handleFileUpload}
+            disabled={isLoading || !file}
+          >
+            {isLoading ? "Uploading..." : "Upload and Parse Resume"}
+          </button>
         </div>
       </div>
 
       {/* Parsed Data Display */}
-      
       {parsedData && (
         <div className='Content'>
-        <div className="parsed-data">
-          <h3>Parsed Data</h3>
-          <pre>{JSON.stringify(parsedData, null, 2)}</pre>
-          <button onClick={handleSaveToStorage} className="choose-btn">
-            Save for Autofill
-          </button>
-          <button onClick={handleAutofill} className="upload-btn">
-            Autofill Forms
-          </button>
-        </div>
+          <div className="parsed-data">
+            <h3>Parsed Data</h3>
+            <pre>{JSON.stringify(parsedData, null, 2)}</pre>
+            <button onClick={handleSaveToStorage} className="choose-btn">
+              Save for Autofill
+            </button>
+            <button onClick={handleAutofill} className="upload-btn">
+              Autofill Forms
+            </button>
+          </div>
         </div>
       )}
     </div>
   );
 };
-
 
 export default App;

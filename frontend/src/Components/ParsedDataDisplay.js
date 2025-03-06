@@ -6,8 +6,8 @@ const ParsedDataDisplay = ({ parsedData, handleSaveToStorage, handleAutofill }) 
     parsedData && (
       <div className='Content'>
         <div className="parsed-data">
-          <h3>Parsed Data</h3>
-          <pre>{JSON.stringify(parsedData, null, 2)}</pre>
+          {/* <h3>Parsed Data</h3>
+          <pre>{JSON.stringify(parsedData, null, 2)}</pre> */}
           <button onClick={handleSaveToStorage} className="choose-btn">
             Save for Autofill
           </button>
@@ -15,6 +15,7 @@ const ParsedDataDisplay = ({ parsedData, handleSaveToStorage, handleAutofill }) 
             Autofill Forms
           </button>
         </div>
+        <button className="dashboard">Go To Dashboard</button>
       </div>
     )
   );

@@ -1,17 +1,17 @@
 /* global chrome */
 import React from 'react';
 
-const CentreContent = ({ parsedData, isLoading, file, handleFileChange, handleFileUpload, userId,handleAutofill }) => {
+const CentreContent = ({ parsedData, isLoading, file, handleFileChange, handleFileUpload, userId }) => {
   
   const handleGoToDashboard = () => {
     if (!userId) {
-      alert("User ID is missing. Please log in again.");
-      return;
+        alert("User ID is missing. Please log in again.");
+        return;
     }
 
     console.log("Opening Dashboard via Chrome extension API...");
-    chrome.tabs.create({ url: `http://localhost:5000/user/${userId}` });
-  };
+    chrome.tabs.create({ url: `http://localhost:5000/dashboard?userId=${userId}` });
+};
   
   
   return (
@@ -40,9 +40,6 @@ const CentreContent = ({ parsedData, isLoading, file, handleFileChange, handleFi
             disabled={isLoading || !file}
           >
             {isLoading ? "Uploading..." : "Upload and Parse Resume"}
-          </button>
-          <button onClick={handleAutofill} className="upload-btn">
-            Autofill Forms
           </button>
 
           <button onClick={handleGoToDashboard} className="dashboard">Go To Dashboard</button>

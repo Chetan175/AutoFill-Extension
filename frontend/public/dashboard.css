@@ -1,0 +1,302 @@
+/* Dashboard CSS - Dark Theme UI Design */
+:root {
+    --primary: #3a86ff;
+    --primary-light: #61a0ff;
+    --primary-dark: #2563eb;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark-bg: #121212;
+    --dark-surface: #1e1e1e;
+    --dark-card: #252525;
+    --dark-input: #333333;
+    --dark-hover: #2a2a2a;
+    --dark-border: #333333;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-tertiary: #64748b;
+    --border-radius: 8px;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-highlight: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    --transition: all 0.2s ease;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  body {
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h1, h2 {
+    padding: 0.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+  }
+  
+  h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin: 2rem 0 0.5rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    letter-spacing: -0.025em;
+    width: fit-content;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+  }
+  
+  #resumeData {
+    width: 90%;
+    max-width: 800px;
+    background-color: var(--dark-surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+    border: 1px solid var(--dark-border);
+  }
+  
+  #resumeData:hover {
+    transform: translateY(-5px);
+  }
+  
+  .field-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas:
+      "label input"
+      "buttons buttons";
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background-color: var(--dark-card);
+    border: 1px solid var(--dark-border);
+    transition: var(--transition);
+  }
+  
+  .field-container:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--gray-600);
+    background-color: var(--dark-hover);
+  }
+  
+  .field-label {
+    grid-area: label;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+  }
+  
+  .edit-mode {
+    grid-area: input;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--gray-600);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    color: var(--text-primary);
+    width: 100%;
+    transition: var(--transition);
+    background-color: var(--dark-input);
+  }
+  
+  .edit-mode:disabled {
+    background-color: var(--dark-input);
+    color: var(--text-secondary);
+    cursor: default;
+  }
+  
+  .edit-mode:not(:disabled) {
+    background-color: var(--dark-input);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary);
+  }
+  
+  .edit-mode:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-highlight);
+  }
+  
+  .button-group {
+    grid-area: buttons;
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    justify-content: flex-end;
+  }
+  
+  button {
+    padding: 0.5rem 1.25rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  button:first-child {
+    background-color: var(--gray-700);
+    color: var(--gray-200);
+  }
+  
+  button:first-child:hover {
+    background-color: var(--gray-600);
+  }
+  
+  button:last-child {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  button:last-child:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
+  
+  /* Alert styling */
+  .alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    background-color: var(--success);
+    color: white;
+    box-shadow: var(--shadow);
+    animation: slideIn 0.3s forwards, fadeOut 0.5s 2.5s forwards;
+    z-index: 1000;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; visibility: hidden; }
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .field-container {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "label"
+        "input"
+        "buttons";
+    }
+  
+    #resumeData {
+      padding: 1rem;
+      width: 95%;
+    }
+  
+    h1 {
+      font-size: 1.75rem;
+      width: 85%;
+      text-align: center;
+    }
+  }
+  
+  /* Special styling for different field types */
+  .field-container:nth-child(odd) {
+    background-color: #222222;
+  }
+  
+  /* Skill chips styling - for the skills field */
+  input[value*=','] {
+    background-image: linear-gradient(120deg, #1a2e44, #1e3a56);
+  }
+  
+  /* Add a loading state */
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  .loading {
+    animation: pulse 1.5s infinite;
+    background-color: var(--gray-700);
+    height: 24px;
+    width: 100%;
+    border-radius: var(--border-radius);
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--dark-card);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--gray-600);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-500);
+  }
+  
+  /* Add subtle glow effect to buttons */
+  button:hover {
+    box-shadow: 0 0 8px rgba(58, 134, 255, 0.5);
+  }
+  
+  /* Add field highlight on focus within */
+  .field-container:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px rgba(58, 134, 255, 0.2);
+  }

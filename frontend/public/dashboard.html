@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./dashboard.css">
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <h2 id="userGreeting"></h2>
+    
+    <div id="resumeData"></div>
+
+    <script>
+        async function fetchData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('userId');
+
+            try {
+                const response = await fetch(`http://localhost:5000/user/${userId}`);
+                const data = await response.json();
+
+                // Display greeting
+                document.getElementById('userGreeting').textContent = `Hello, ${data.userName}!`;
+
+                // Display parsed resume fields with Edit/Save buttons
+                const resumeDataDiv = document.getElementById('resumeData');
+                resumeDataDiv.innerHTML = '';
+
+                const fields = [
+                    'name', 'email', 'phone', 'linkedIn', 
+                    'github', 'skills', 'workExperience', 'education'
+                ];
+
+                fields.forEach(field => {
+                    const fieldContainer = document.createElement('div');
+                    fieldContainer.classList.add('field-container');
+
+                    const label = document.createElement('p');
+                    label.classList.add('field-label');
+                    label.innerHTML = `${field.charAt(0).toUpperCase() + field.slice(1)}: `;
+
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = data.parsedResume[field] || '';
+                    input.disabled = true;
+                    input.classList.add('edit-mode');
+
+                    const buttonGroup = document.createElement('div');
+                    buttonGroup.classList.add('button-group');
+
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Edit';
+                    editButton.onclick = () => {
+                        input.disabled = false;
+                        input.focus();
+                    };
+
+                    const saveButton = document.createElement('button');
+                    saveButton.textContent = 'Save';
+                    saveButton.onclick = async () => {
+                        const updatedValue = input.value;
+
+                        // Send updated data to the server
+                        await fetch(`http://localhost:5000/user/update/${userId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                [field]: updatedValue
+                            })
+                        });
+
+                        input.disabled = true;
+                        alert(`${field} updated successfully!`);
+                    };
+
+                    buttonGroup.appendChild(editButton);
+                    buttonGroup.appendChild(saveButton);
+
+                    fieldContainer.appendChild(label);
+                    fieldContainer.appendChild(input);
+                    fieldContainer.appendChild(buttonGroup);
+
+                    resumeDataDiv.appendChild(fieldContainer);
+                });
+
+            } catch (error) {
+                document.getElementById('resumeData').innerHTML = 
+                    `<p>Error fetching data: ${error.message}</p>`;
+            }
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>

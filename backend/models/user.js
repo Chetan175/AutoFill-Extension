@@ -15,32 +15,26 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   parsedResume: {
-    name: { type: String, default: "" },
-    email: { type: String, default: "" },
-    phone: { type: String, default: "" },
-    linkedIn: { type: String, default: "" },
-    github: { type: String, default: "" },
-    skills: { type: [String], default: [] }, // Default empty array
-    workExperience: {
-      type: [
-        {
-          company: { type: String, default: "" },
-          role: { type: String, default: "" },
-          duration: { type: String, default: "" },
-        },
-      ],
-      default: [],
-    },
-    education: {
-      type: [
-        {
-          degree: { type: String, default: "" },
-          university: { type: String, default: "" },
-          graduationYear: { type: String, default: "" },
-        },
-      ],
-      default: [],
-    },
+    name: { type: String },
+    email: { type: String },
+    phone: { type: String },
+    linkedIn: { type: String },
+    github: { type: String },
+    skills: [{ type: String }], // Array of strings
+    workExperience: [
+      {
+        company: { type: String },
+        role: { type: String },
+        duration: { type: String },
+      },
+    ],
+    education: [
+      {
+        degree: { type: String },
+        university: { type: String },
+        graduationYear: { type: String },
+      },
+    ],
   },
 });
 

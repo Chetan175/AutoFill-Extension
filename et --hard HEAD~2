@@ -1,0 +1,53 @@
+[33mcommit 38b1ea32b2b91d8306a3328d914056c76e24b323[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: darshit2308 <darshit2308@gmail.com>
+Date:   Wed Mar 19 20:21:59 2025 +0530
+
+    Frontapage css
+
+[33mcommit 66462e34676b1a147fd199e6ae143fdba68dd436[m
+Author: darshit2308 <darshit2308@gmail.com>
+Date:   Wed Mar 19 20:12:14 2025 +0530
+
+    Changed dashboard
+
+[33mcommit b77568b00c95591edc668b45e64f757c32c4222b[m
+Author: JayH25 <jayhirapara2506@gmail.com>
+Date:   Mon Mar 17 22:20:10 2025 +0530
+
+    auto fill from backend succeed
+
+[33mcommit 4ea9a5a564225c507346262d509283e80acb928d[m
+Author: Chetan175 <chetanahuja175@gmail.com>
+Date:   Mon Mar 17 16:25:51 2025 +0530
+
+    17-Mar
+
+[33mcommit ec137b976d71be894ee466368780901902f632d3[m
+Author: Chetan175 <chetanahuja175@gmail.com>
+Date:   Sun Mar 16 14:15:53 2025 +0530
+
+    16-Mar
+
+[33mcommit 522e2637782c0afd8589b4e8f8c45d9f79d710c9[m
+Author: JayH25 <jayhirapara2506@gmail.com>
+Date:   Sun Mar 16 01:19:42 2025 +0530
+
+    go to dashboard added
+
+[33mcommit 19f5e5f83c5b9a5087238a9e81c6cc6013bc3718[m
+Author: JayH25 <jayhirapara2506@gmail.com>
+Date:   Thu Mar 13 18:30:46 2025 +0530
+
+    updated dashboard to the backend
+
+[33mcommit dbf4439a2c1cd5cfdb2df9d3d08264a4e85638e6[m
+Author: Chetan175 <chetanahuja175@gmail.com>
+Date:   Wed Mar 12 03:55:49 2025 +0530
+
+    mongoDB
+
+[33mcommit 05a7de09fb5fbb4c6fd3538b9f82f495b40d8ec8[m
+Author: darshit2308 <darshit2308@gmail.com>
+Date:   Sun Mar 9 19:21:22 2025 +0530
+
+    Added login signup function

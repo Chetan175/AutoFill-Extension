@@ -6,7 +6,7 @@ const Navbar = ({handleSignout}) => {
   // }
   return (
     <div className="navbar">
-      <h1 className="logo">Auto Job Filler</h1>
+      <h1 className="logo">ResuMate</h1>
       <button className="signout-btn" onClick={handleSignout}>Sign Out</button>
     </div>
   );

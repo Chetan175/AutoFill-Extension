@@ -22,6 +22,14 @@
   --gradient-header: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 }
 
+html {
+  background-color: #1a1c2c;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  height: 100%; /* Ensure full height */
+  scrollbar-gutter: stable; /* Keep this to prevent layout shifts */
+}
+
 /* Base styles */
 * {
   margin: 0;
@@ -35,6 +43,7 @@ body {
   color: var(--text-color);
   background-size: 200% 200%;
   animation: gradientShift 15s ease infinite;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 @keyframes gradientShift {
@@ -44,7 +53,7 @@ body {
 }
 
 .app-container {
-  width: 100%;
+  width: 100vw;
   max-width: 800px;
   margin: 20px auto;
   display: flex;
@@ -55,6 +64,7 @@ body {
   background-color: var(--card-bg);
   overflow: hidden;
   position: relative;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .app-container::before {
@@ -62,7 +72,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 6px;
   background: var(--gradient-header);
 }
@@ -73,6 +83,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
+  width:100vw;
   background-color: var(--card-bg);
   color: white;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -118,7 +129,11 @@ body {
   object-fit: contain;
   margin-bottom: 15px;
   border-radius: 8px;
-  border: 2px solid var(--input-border);
+}
+
+.pdf-icon {
+  border: none;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 .select-upload-buttons {

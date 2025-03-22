@@ -23,7 +23,7 @@ const CentreContent = ({ parsedData, isLoading, file, handleFileChange, handleFi
             alt="File Preview"
           />
         </div>
-        <h2>{parsedData ? parsedData.fileName : (!file) ? "Select File" : "Confirm Upload"}</h2>
+        <h3>{parsedData ? parsedData.fileName : (!file) ? "Select File" : "Confirm Upload"}</h3>
         <div className="select-upload-buttons">
           <label className="choose-btn">
             Choose File

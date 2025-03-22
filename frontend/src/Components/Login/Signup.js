@@ -295,7 +295,7 @@ const handleSubmit = async (e) => {
           
           <div className="terms-checkbox">
             <input type="checkbox" id="terms" required />
-            <label htmlFor="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+            <label htmlFor="terms"> I agree to the Terms of Service & Privacy Policy </label>
           </div>
           
           <button type="submit" className="signup-button" disabled={isLoading}>

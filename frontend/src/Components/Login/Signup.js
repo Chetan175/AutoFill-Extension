@@ -153,38 +153,63 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="signup-container">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250">
-        {/* <!-- Background --> */}
-        <rect width="400" height="250" fill="#ffffff" rx="10" ry="10"/>
-        
-        {/* <!-- Main logo text --> */}
-        <text x="200" y="120" font-family="Arial, sans-serif" font-weight="bold" font-size="48" text-anchor="middle" fill="#2563EB">
-          Resum<tspan fill="#10B981">ate</tspan>
-        </text>
-        
-        {/* <!-- Document icon --> */}
-        <g transform="translate(150, 60)">
-          <path d="M10,0 L70,0 L100,30 L100,140 L10,140 Z" fill="#f0f9ff" stroke="#2563EB" stroke-width="3"/>
-          <path d="M70,0 L70,30 L100,30" fill="none" stroke="#2563EB" stroke-width="3"/>
-          
-          {/* <!-- Document lines --> */}
-          <line x1="30" y1="50" x2="80" y2="50" stroke="#10B981" stroke-width="3"/>
-          <line x1="30" y1="70" x2="80" y2="70" stroke="#2563EB" stroke-width="3"/>
-          <line x1="30" y1="90" x2="80" y2="90" stroke="#2563EB" stroke-width="3"/>
-          <line x1="30" y1="110" x2="60" y2="110" stroke="#10B981" stroke-width="3"/>
-        </g>
-        
-        {/* <!-- Cursor icon --> */}
-        <g transform="translate(225, 90)">
-          <path d="M0,0 L15,15 L30,0 L20,0 L15,5 L10,0 Z" fill="#10B981"/>
-          <line x1="15" y1="5" x2="15" y2="30" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
-        </g>
-        
-        {/* <!-- Tagline --> */}
-        <text x="200" y="170" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#64748B">
-          Your resume, automatically everywhere
-        </text>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+  {/* <!-- Document with folded corner and modern styling --> */}
+  <g transform="translate(40, 15)">
+    {/* <!-- Document base with subtle gradient --> */}
+    <defs>
+      <linearGradient id="documentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f5f9ff" />
+        <stop offset="100%" stop-color="#e6f0ff" />
+      </linearGradient>
+    </defs>
+    
+    {/* <!-- Main document with shadow effect --> */}
+    <rect x="1" y="1" width="48" height="58" rx="3" ry="3" fill="#e0e7ff" opacity="0.5" />
+    <rect x="0" y="0" width="48" height="58" rx="3" ry="3" fill="url(#documentGradient)" stroke="#4361ee" stroke-width="1.5" />
+    
+    {/* <!-- Folded corner with gradient --> */}
+    <defs>
+      <linearGradient id="cornerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#10B981" />
+        <stop offset="100%" stop-color="#34D399" />
+      </linearGradient>
+    </defs>
+    <path d="M36,0 L48,12 L36,12 Z" fill="url(#cornerGradient)" />
+    
+    {/* <!-- Document lines with animation effect --> */}
+    <line x1="8" y1="20" x2="40" y2="20" stroke="#4361ee" stroke-width="1.5" stroke-linecap="round" />
+    <line x1="8" y1="28" x2="40" y2="28" stroke="#4361ee" stroke-width="1.5" stroke-linecap="round" />
+    <line x1="8" y1="36" x2="40" y2="36" stroke="#4361ee" stroke-width="1.5" stroke-linecap="round" />
+    <line x1="8" y1="44" x2="28" y2="44" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" />
+  </g>
+  
+  {/* <!-- Name with modern typography and subtle effects --> */}
+  <g transform="translate(30, 85)">
+    {/* <!-- Text shadow for depth --> */}
+    <text x="1" y="1" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.5" fill="#c7d2fe" opacity="0.3">
+      Resum<tspan>ate</tspan>
+    </text>
+    
+    {/* <!-- Main text with gradient --> */}
+    <defs>
+      <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#4361ee" />
+        <stop offset="70%" stop-color="#4361ee" />
+        <stop offset="70.01%" stop-color="#10B981" />
+        <stop offset="100%" stop-color="#10B981" />
+      </linearGradient>
+    </defs>
+    <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.5" fill="url(#textGradient)">
+      Resumate
+    </text>
+  </g>
+  
+  {/* <!-- Tagline with refined styling --> */}
+  <text x="120" y="105" font-family="Arial, Helvetica, sans-serif" font-size="10" text-anchor="middle" fill="#64748B" letter-spacing="0.3">
+    Your resume, automatically everywhere
+  </text>
+</svg>
       <div className="signup-card">
         <div className="signup-header">
           <h1>Create Account</h1>

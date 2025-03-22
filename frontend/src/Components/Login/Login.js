@@ -60,9 +60,9 @@ const Login = ({ onLoginSuccess }) => {
 
   return (
     <div className="login-container">
-     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120">
   {/* <!-- Document with folded corner and modern styling --> */}
-  <g transform="translate(40, 15)">
+  <g transform="translate(60, 15)">
     {/* <!-- Document base with subtle gradient --> */}
     <defs>
       <linearGradient id="documentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -92,7 +92,7 @@ const Login = ({ onLoginSuccess }) => {
   </g>
   
   {/* <!-- Name with modern typography and subtle effects --> */}
-  <g transform="translate(30, 85)">
+  <g transform="translate(50, 85)">
     {/* <!-- Text shadow for depth --> */}
     <text x="1" y="1" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.5" fill="#c7d2fe" opacity="0.3">
       Resum<tspan>ate</tspan>
@@ -108,7 +108,7 @@ const Login = ({ onLoginSuccess }) => {
       </linearGradient>
     </defs>
     <text x="0" y="0" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.5" fill="url(#textGradient)">
-      Resumate
+      Resum<tspan>ate</tspan>
     </text>
   </g>
   

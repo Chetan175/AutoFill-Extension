@@ -1,0 +1,45 @@
+{
+  "name": "Job-Application Auto-Fill",
+  "description": "Automatically fill out job applications with your resume data",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Job-Application Auto-Fill",
+    "default_icon": {
+      "128": "logo192.png"
+    }
+  },
+  "icons": {
+    "128": "logo192.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*", "images/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

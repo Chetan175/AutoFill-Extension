@@ -1,0 +1,572 @@
+/* Signup.css - Dark Theme */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #6c5ce7;
+  --primary-hover: #8075e8;
+  --secondary-color: #a855f7;
+  --text-color: #e2e8f0;
+  --light-text: #a0aec0;
+  --error-color: #f56565;
+  --success-color: #38b2ac;
+  --background: #121212;
+  --card-bg: #1e1e1e;
+  --input-bg: #2d2d2d;
+  --input-border: #3f3f3f;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(108, 92, 231, 0.2);
+  --shadow-lg: 0 8px 24px rgba(108, 92, 231, 0.25);
+  --transition: all 0.3s ease;
+  --gradient-bg: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background);
+  color: var(--text-color);
+  height: 0rem;
+  position: relative;
+  top: 0;
+}
+
+.signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+  background-color: #1a1c2c;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  padding-top: 1rem; /* Add padding to the top instead of negative margin */
+  margin-top: 0; /* Remove negative margin */
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.signup-card {
+  width: 90%; /* Reduced to 90% of original size */
+  max-width: 414px; /* 90% of the original 460px */
+  background-color: var(--card-bg);
+  border: none;
+  border-radius: 16px; /* Added rounded borders */
+  overflow: hidden;
+  padding: 30px;
+  position: relative;
+  margin: 0 auto; /* Center the card horizontally */
+  box-shadow: var(--shadow-md); /* Added shadow for better visual separation */
+}
+
+.signup-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 16px 16px 0 0; /* Match the top radius of the card */
+}
+
+.signup-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signup-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.signup-header p {
+  font-size: 14px;
+  color: var(--light-text);
+  opacity: 0.8;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Slightly smaller gap for more form fields */
+}
+
+.form-group {
+  position: relative;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input,
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  background-color: var(--input-bg);
+  outline: none;
+  transition: var(--transition);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-input:focus,
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15), 0 0 10px rgba(108, 92, 231, 0.2);
+}
+
+.form-input::placeholder,
+input::placeholder {
+  color: #64748b;
+  font-weight: 300;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--light-text);
+  z-index: 2;
+  transition: var(--transition);
+}
+
+.password-toggle:hover {
+  color: var(--primary-color);
+}
+
+.input-error {
+  border-color: var(--error-color) !important;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.error-message {
+  font-size: 12px;
+  color: var(--error-color);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Checkbox and radio styling */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.checkbox-container input[type="checkbox"],
+.checkbox-container input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox-label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--light-text);
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--input-border);
+  background-color: var(--input-bg);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.checkbox-container input:checked ~ .checkbox-label:before {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkbox-label:after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.checkbox-container input:checked ~ .checkbox-label:after {
+  opacity: 1;
+}
+
+/* Signup button */
+.signup-button {
+  padding: 14px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  margin-top: 15px;
+  box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+
+.signup-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: all 0.6s ease;
+}
+
+.signup-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(108, 92, 231, 0.4);
+}
+
+.signup-button:hover::before {
+  left: 100%;
+}
+
+.signup-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(108, 92, 231, 0.3);
+}
+
+.signup-button:disabled {
+  background: #4a5568;
+  cursor: not-allowed;
+}
+
+/* Two column layout for name fields */
+.name-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+/* Password strength indicator */
+.password-strength {
+  height: 5px;
+  border-radius: 3px;
+  margin-top: 8px;
+  transition: var(--transition);
+  background-color: var(--input-border);
+  position: relative;
+}
+
+.password-strength-indicator {
+  height: 100%;
+  border-radius: 3px;
+  transition: var(--transition);
+}
+
+.strength-weak {
+  width: 33%;
+  background-color: var(--error-color);
+}
+
+.strength-medium {
+  width: 66%;
+  background-color: #ed8936; /* Orange */
+}
+
+.strength-strong {
+  width: 100%;
+  background-color: var(--success-color);
+}
+
+.strength-label {
+  font-size: 12px;
+  margin-top: 5px;
+  color: var(--light-text);
+  text-align: right;
+}
+
+.signup-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #2d3748;
+  font-size: 14px;
+  color: var(--light-text);
+}
+
+.signup-footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.signup-footer a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Social signup buttons */
+.social-signup {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.social-button {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.social-button:hover {
+  background-color: rgba(108, 92, 231, 0.1);
+  border-color: var(--primary-color);
+}
+
+.social-button svg {
+  height: 20px;
+  width: 20px;
+  fill: var(--light-text);
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: var(--light-text);
+}
+
+.or-divider:before,
+.or-divider:after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--input-border);
+  margin: 0 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .signup-card {
+    padding: 24px 20px;
+  }
+  .signup-header h1 {
+    font-size: 24px;
+  }
+  .name-fields {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Chrome Extension Specific Styling */
+body.chrome-extension {
+  overflow: hidden;
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.form-group {
+  animation: slideInUp 0.4s forwards;
+}
+
+.form-group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-group:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.form-group:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.form-group:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.signup-button {
+  animation: slideInUp 0.4s forwards;
+  animation-delay: 0.3s;
+}
+
+.signup-footer {
+  animation: slideInUp 0.4s forwards;
+  animation-delay: 0.35s;
+}
+
+/* Focus Styles for Accessibility */
+:focus {
+  outline: 3px solid rgba(108, 92, 231, 0.4);
+  outline-offset: 2px;
+}
+
+/* Progress steps for multi-step form */
+.signup-progress {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.progress-step {
+  position: relative;
+  flex: 1;
+  text-align: center;
+}
+
+.step-indicator {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--input-bg);
+  border: 2px solid var(--input-border);
+  color: var(--light-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+  transition: var(--transition);
+  position: relative;
+  z-index: 2;
+}
+
+.progress-step.active .step-indicator {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.progress-step.completed .step-indicator {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+  color: white;
+}
+
+.progress-step:not(:last-child):after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: var(--input-border);
+  z-index: 1;
+}
+
+.progress-step.completed:not(:last-child):after {
+  background-color: var(--success-color);
+}
+
+.step-label {
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+.progress-step.active .step-label {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* Dark mode enhancement for input fields */
+.form-input:-webkit-autofill,
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+  -webkit-text-fill-color: var(--text-color) !important;
+  caret-color: var(--primary-color);
+}
+
+html {
+  background-color: #1a1c2c;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  height: 100%; /* Ensure full height */
+}
+
+svg {
+  height: 8rem;
+  filter: drop-shadow(0 0 8px rgba(108, 92, 231, 0.3));
+  margin-bottom: 1rem; /* Add some space below the logo */
+  display: block; /* Ensure block display */
+  max-width: 100%; /* Make sure it doesn't overflow */
+}

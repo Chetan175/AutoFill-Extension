@@ -1,0 +1,354 @@
+/* Login.css - Dark Theme */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #6c5ce7;
+  --primary-hover: #8075e8;
+  --secondary-color: #a855f7;
+  --text-color: #e2e8f0;
+  --light-text: #a0aec0;
+  --error-color: #f56565;
+  --success-color: #38b2ac;
+  --background: #121212;
+  --card-bg: #1e1e1e;
+  --input-bg: #2d2d2d;
+  --input-border: #3f3f3f;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(108, 92, 231, 0.2);
+  --shadow-lg: 0 8px 24px rgba(108, 92, 231, 0.25);
+  --transition: all 0.3s ease;
+  --gradient-bg: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #1a1c2c;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  height: 100%; /* Ensure full height */
+  scrollbar-gutter: stable; /* Keep this to prevent layout shifts */
+  
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background);
+  color: var(--text-color);
+  min-height: 100vh;
+  position: relative;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%; /* Ensure full width */
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column nowrap;
+  background-color: #1a1c2c;
+  background-size: 200% 200%;
+  animation: gradientShift 15s ease infinite;
+  padding-top: 1rem;
+  margin-top: 0;
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100%; /* Ensure full width */
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.login-card {
+  width: 80%; /* Reduced to 80% of original size */
+  max-width: 336px; /* 80% of 420px */
+  background-color: var(--card-bg);
+  border: none;
+  border-radius: 16px; /* Added border radius */
+  overflow: hidden;
+  padding: 30px;
+  position: relative;
+  box-shadow: var(--shadow-md); /* Added shadow for depth */
+  margin: 0 auto; /* Center horizontally */
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 16px 16px 0 0; /* Match the top border radius */
+}
+
+/* Rest of your CSS remains the same */
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-header p {
+  font-size: 14px;
+  color: var(--light-text);
+  opacity: 0.8;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  position: relative;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input,
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  background-color: var(--input-bg);
+  outline: none;
+  transition: var(--transition);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+.form-input:focus,
+input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.form-input::placeholder,
+input::placeholder {
+  color: #64748b;
+  font-weight: 300;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--light-text);
+  z-index: 2;
+  transition: var(--transition);
+}
+
+.password-toggle:hover {
+  color: var(--primary-color);
+}
+
+.input-error {
+  border-color: var(--error-color) !important;
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.error-message {
+  font-size: 12px;
+  color: var(--error-color);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.error-message::before {
+  content: "⚠️";
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-button {
+  padding: 14px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: all 0.6s ease;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(108, 92, 231, 0.4);
+}
+
+.login-button:hover::before {
+  left: 100%;
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(108, 92, 231, 0.3);
+}
+
+.login-button:disabled {
+  background: #4a5568;
+  cursor: not-allowed;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #2d3748;
+  font-size: 14px;
+  color: var(--light-text);
+}
+
+.login-footer a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 24px 20px;
+    width: 90%; /* Slightly larger on small screens */
+  }
+  .login-header h1 {
+    font-size: 24px;
+  }
+}
+
+/* Chrome Extension Specific Styling */
+body.chrome-extension {
+  overflow: hidden;
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.form-group {
+  animation: slideInUp 0.4s forwards;
+}
+
+.form-group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-group:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.login-button {
+  animation: slideInUp 0.4s forwards;
+  animation-delay: 0.3s;
+}
+
+.login-footer {
+  animation: slideInUp 0.4s forwards;
+  animation-delay: 0.4s;
+}
+
+/* Focus Styles for Accessibility */
+:focus {
+  outline: 3px solid rgba(108, 92, 231, 0.4);
+  outline-offset: 2px;
+}
+
+svg {
+  height: 8rem;
+  filter: drop-shadow(0 0 8px rgba(108, 92, 231, 0.3));
+  margin-bottom: 1rem;
+  display: block;
+  max-width: 100%;
+}
+
+/* Dark mode enhancement for input fields */
+.form-input:-webkit-autofill,
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px var(--input-bg) inset !important;
+  -webkit-text-fill-color: var(--text-color) !important;
+  caret-color: var(--primary-color);
+}
+
+/* Subtle glow effect for focus states */
+.form-input:focus,
+input:focus {
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15), 0 0 10px rgba(108, 92, 231, 0.2);
+}

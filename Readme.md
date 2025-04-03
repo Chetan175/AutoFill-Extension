@@ -39,4 +39,4 @@ The page gets autofilled and all the information can be save to dashboard on cli
 
 https://github.com/user-attachments/assets/ec5eb834-6e9d-4e86-bf15-b69ac6292811
 
-https://github.com/Chetan175/AutoFill-Extension/blob/4f38e1394d87676d0c01c1d5dcfce0cdb2101406/images/Screenshot%202025-04-03%20at%2010.56.59%E2%80%AFAM.png
+<img width="971" alt="Image" src="https://github.com/user-attachments/assets/25b03ac5-80dc-41ce-b7d7-e7511ac319c5" />

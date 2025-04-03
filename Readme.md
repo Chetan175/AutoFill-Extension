@@ -35,3 +35,6 @@ A browser extension that automatically detects form fields on job application we
    - Click the extension icon
    - Select "Autofill This Page"
 The page gets autofilled and all the information can be save to dashboard on clicking 'Save to dashboard'.
+
+
+https://github.com/Chetan175/AutoFill-Extension/blob/4f38e1394d87676d0c01c1d5dcfce0cdb2101406/images/Screenshot%202025-04-03%20at%2010.56.59%E2%80%AFAM.png

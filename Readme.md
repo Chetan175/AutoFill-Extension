@@ -85,4 +85,11 @@ The extension icon should now appear in your toolbar
 
 You're now ready to use the extension!
 
+## Contributors
+
+- [Jay Hirapara](https://github.com/JayH25)  
+- [Chetan Ahuja](https://github.com/Chetan175)  
+- [Darshit Khandelwal](https://github.com/darshit2308)
+
+
 

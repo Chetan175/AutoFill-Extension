@@ -40,3 +40,49 @@ The page gets autofilled and all the information can be save to dashboard on cli
 https://github.com/user-attachments/assets/ec5eb834-6e9d-4e86-bf15-b69ac6292811
 
 <img width="971" alt="Image" src="https://github.com/user-attachments/assets/25b03ac5-80dc-41ce-b7d7-e7511ac319c5" />
+
+Running the Project Locally
+Follow these steps to set up the extension and backend locally:
+
+1. Clone the Repository:
+
+```
+git clone https://github.com/Chetan175/AutoFill-Extension.git
+```
+4. Build the React Extension:
+
+```
+npm install
+npm run build
+```
+
+This will generate a build folder containing the production-ready extension files.
+
+6. Start the Backend Server
+Navigate to the backend directory:
+```
+cd backend
+npm install
+```
+Then start the server:
+```
+node server.js
+```
+Or if you're using nodemon for auto-reloading:
+```
+nodemon server.js
+```
+4. Load the Extension in Developer Mode
+Open Google Chrome and go to chrome://extensions/
+
+Enable Developer mode (toggle at the top right)
+
+Click Load unpacked
+
+Select the build folder generated in step 2
+
+The extension icon should now appear in your toolbar
+
+You're now ready to use the extension!
+
+

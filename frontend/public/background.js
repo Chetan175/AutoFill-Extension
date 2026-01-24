@@ -1,12 +1,7 @@
 
 /* global chrome */
 
-// Load API key from environment at build time. Set `REACT_APP_HF_API_KEY` in
-// `frontend/.env`. During local development you must rebuild the extension so
-// the bundler replaces `process.env.REACT_APP_HF_API_KEY` with the value.
-// If you run the unbundled `public/background.js` directly in the browser,
-// `process.env` won't be available — in that case set the key in an options
-// page or assign `HF_API_KEY` programmatically via `chrome.storage`.
+
 const HF_API_KEY = (typeof process !== 'undefined' && process.env && process.env.REACT_APP_HF_API_KEY) || '';
 
 

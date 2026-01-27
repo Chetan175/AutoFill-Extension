@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// 2️⃣ Receive AI mapping and autofill
+// 2️⃣ Receive AI mapping and fill
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.action === "ai_autofill") {
     console.log("content.js received ai_autofill", { mapping: msg.mapping, resumeKeys: Object.keys(msg.resume || {}) });
@@ -139,6 +139,6 @@ chrome.runtime.onMessage.addListener((msg) => {
       });
     }
 
-    alert("AI Autofill complete 🚀");
+    alert("Autofill complete!");
   }
 });

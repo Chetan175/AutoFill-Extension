@@ -1,411 +1,333 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <title>Dashboard - Edit Resume</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Resumate - Dashboard</title>
   <style>
     :root {
-      --primary: #4361ee;
-      --primary-light: #4895ef;
-      --secondary: #3f37c9;
-      --success: #4cc9f0;
-      --danger: #f72585;
-      --light: #f8f9fa;
-      --dark: #212529;
-      --gray: #adb5bd;
-      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      --input-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-      --transition: all 0.3s ease;
+      --primary: #76b900; /* NVIDIA Green */
+      --text-main: #000000;
+      --text-muted: #666666;
+      --border: #d1d1d1;
+      --bg: #ffffff;
+      --font-family: 'Inter', sans-serif;
     }
-    
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
-    
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      min-height: 100vh;
-      padding: 40px 0;
-      color: var(--dark);
+      font-family: var(--font-family);
+      background-color: var(--bg);
+      color: var(--text-main);
       line-height: 1.6;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    
+
     .container {
-      width: 80%;
-      max-width: 1000px;
-      margin: auto;
-      padding: 0;
-      position: relative;
-    }
-    
-    .dashboard-header {
-      text-align: center;
-      margin-bottom: 30px;
-      position: relative;
-    }
-    
-    .dashboard-header h2 {
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 10px;
-      font-weight: 700;
-      position: relative;
-      display: inline-block;
-    }
-    
-    .dashboard-header h2::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background: var(--primary-light);
-      border-radius: 2px;
-    }
-    
-    .greeting {
-      font-size: 1.2rem;
-      color: var(--dark);
-      margin-top: 20px;
-      font-weight: 500;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 10px 15px;
-      border-radius: 50px;
-      box-shadow: var(--card-shadow);
-      display: inline-block;
-    }
-    
-    .card {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      margin-bottom: 30px;
-      transition: var(--transition);
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    }
-    
-    .card-header {
-      background: var(--primary);
-      color: white;
-      padding: 20px 30px;
-      position: relative;
-    }
-    
-    .card-content {
-      padding: 30px;
-    }
-    
-    .alert {
-      padding: 15px 20px;
-      margin-bottom: 25px;
-      border-radius: 10px;
-      position: relative;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .alert-success {
-      background-color: rgba(76, 201, 240, 0.2);
-      color: #0077b6;
-      border-left: 4px solid var(--success);
-    }
-    
-    .alert-error {
-      background-color: rgba(247, 37, 133, 0.2);
-      color: #9d0208;
-      border-left: 4px solid var(--danger);
-    }
-    
-    .form-group {
-      margin-bottom: 25px;
-      position: relative;
-    }
-    
-    label {
-      font-weight: 600;
-      color: var(--dark);
-      margin-bottom: 8px;
-      display: block;
-      font-size: 0.95rem;
-    }
-    
-    input, textarea {
       width: 100%;
-      padding: 12px 15px;
-      border: 2px solid var(--gray);
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: var(--transition);
-      box-shadow: var(--input-shadow);
+      max-width: 900px;
     }
-    
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+
+    header {
+      text-align: center;
+      margin-bottom: 60px;
     }
-    
+
+    header h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
     .section-title {
-      margin: 35px 0 20px;
-      position: relative;
-      font-size: 1.3rem;
-      color: var(--secondary);
-      padding-bottom: 10px;
+      font-size: 1.8rem;
       font-weight: 700;
+      margin: 40px 0 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+      color: var(--text-main);
       display: flex;
       align-items: center;
+      gap: 15px;
     }
-    
-    .section-title:before {
-      content: '';
-      margin-right: 10px;
-      width: 30px;
-      height: 3px;
+
+    .section-title span {
       background: var(--primary);
-      border-radius: 2px;
-    }
-    
-    .work-experience-item, .education-item {
-      background: rgba(248, 249, 250, 0.8);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 15px;
-      border-left: 4px solid var(--primary-light);
-      transition: var(--transition);
-    }
-    
-    .work-experience-item:hover, .education-item:hover {
-      background: white;
-      box-shadow: var(--card-shadow);
-      transform: translateX(5px);
-    }
-    
-    .btn {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
+      color: white;
+      width: 32px;
+      height: 32px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      border-radius: 4px;
+      font-size: 1rem;
     }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 40px;
+      row-gap: 30px;
     }
-    
-    .btn-primary:hover {
-      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-      box-shadow: 0 7px 20px rgba(67, 97, 238, 0.4);
-      transform: translateY(-2px);
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
     }
-    
-    .form-buttons {
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .form-group input, .form-group textarea {
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1.1rem;
+      background-color: #fcfcfc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--text-main);
+      background-color: #fff;
+    }
+
+    .dynamic-section {
+      background: #fafafa;
+      border-radius: 8px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .dynamic-item {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      padding: 25px;
+      background: white;
+      border: 1px solid #eeeeee;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      padding: 20px;
+      border-radius: 6px;
+      margin-bottom: 40px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .alert-success {
+      background-color: #e6fffa;
+      color: #2c7a7b;
+      border: 1px solid #b2f5ea;
+    }
+
+    .alert-error {
+      background-color: #fff5f5;
+      color: #c53030;
+      border: 1px solid #feb2b2;
+    }
+
+    .save-button-container {
+      margin-top: 60px;
       display: flex;
       justify-content: center;
-      margin-top: 30px;
     }
-    
-    .icon-input {
-      position: relative;
+
+    .btn-submit {
+      background-color: var(--text-main);
+      color: #ffffff;
+      padding: 18px 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
     }
-    
-    .icon-input input {
-      padding-left: 40px;
+
+    .btn-submit:hover {
+      background-color: #333333;
     }
-    
-    .icon-input i {
-      position: absolute;
-      left: 15px;
-      top: 40px;
-      color: var(--gray);
+
+    .btn-submit:active {
+      transform: scale(0.98);
     }
-    
-    .skills-tags {
+
+    .skills-container {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 15px;
     }
-    
+
     .skill-tag {
-      background: rgba(76, 201, 240, 0.1);
-      color: var(--primary);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: var(--transition);
-      border: 1px solid rgba(76, 201, 240, 0.3);
+      padding: 6px 14px;
+      background: #eeeeee;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
     }
-    
-    .skill-tag:hover {
-      background: rgba(76, 201, 240, 0.2);
-      transform: scale(1.05);
+
+    .number-prefix {
+      color: var(--text-muted);
+      margin-right: 8px;
     }
-    
-    @media (max-width: 768px) {
-      .container {
-        width: 95%;
-      }
-      
-      .card-content {
-        padding: 20px;
-      }
-      
-      .dashboard-header h2 {
-        font-size: 2rem;
-      }
-    }
-    
-    /* Animation for form elements */
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .form-group {
-      animation: slideIn 0.4s ease-out forwards;
-      opacity: 0;
-    }
-    
-    .form-group:nth-child(1) { animation-delay: 0.1s; }
-    .form-group:nth-child(2) { animation-delay: 0.2s; }
-    .form-group:nth-child(3) { animation-delay: 0.3s; }
-    .form-group:nth-child(4) { animation-delay: 0.4s; }
-    .form-group:nth-child(5) { animation-delay: 0.5s; }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="dashboard-header">
-      <h2>Resume Builder</h2>
-      <!-- Use userName instead of parsedResume.name -->
-      <p class="greeting">Hello <%= userName %>!</p>
-    </div>
+    <header>
+      <h1>Resumate Profile</h1>
+      <p>Clean, efficient, and professional profile management. Manage your data exactly how leading companies see it.</p>
+    </header>
 
-    <div class="card">
-      <div class="card-header">
-        <h3>Edit Your Professional Profile</h3>
+    <% if (message) { %>
+      <div class="alert <%= isSuccess ? 'alert-success' : 'alert-error' %>">
+        <%= message %>
       </div>
-      <div class="card-content">
-        <!-- Success or Error Message -->
-        <% if (message) { %>
-          <div class="alert <%= isSuccess ? 'alert-success' : 'alert-error' %>">
-            <%= message %>
+    <% } %>
+
+    <form action="/update-resume/<%= userId %>" method="POST" class="form-container">
+      
+      <div class="section-title"><span>1</span> Basic Information</div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label><span class="number-prefix">1.</span> Full Name *</label>
+          <input type="text" name="name" value="<%= parsedResume.name || userName %>" placeholder="e.g. Darshit Khandelwal" required>
+        </div>
+
+        <div class="form-group">
+          <label><span class="number-prefix">2.</span> Email Address *</label>
+          <input type="email" name="email" value="<%= parsedResume.email %>" placeholder="e.g. name@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label><span class="number-prefix">3.</span> Contact Phone</label>
+          <input type="text" name="phone" value="<%= parsedResume.phone %>" placeholder="e.g. +91 00000 00000">
+        </div>
+
+        <div class="form-group">
+          <label><span class="number-prefix">4.</span> LinkedIn Profile</label>
+          <input type="text" name="linkedIn" value="<%= parsedResume.linkedIn %>" placeholder="linkedin.com/in/username">
+        </div>
+
+        <div class="form-group">
+          <label><span class="number-prefix">5.</span> GitHub Profile</label>
+          <input type="text" name="github" value="<%= parsedResume.github %>" placeholder="github.com/username">
+        </div>
+      </div>
+
+      <div class="section-title"><span>2</span> Skills & Competencies</div>
+      <div class="form-group">
+        <label><span class="number-prefix">6.</span> Professional Skills (comma separated)</label>
+        <textarea name="skills" rows="4" placeholder="e.g. React, Node.js, Python, AWS"><%= parsedResume.skills.join(", ") %></textarea>
+        <div class="skills-container">
+          <% parsedResume.skills.slice(0, 10).forEach(skill => { %>
+            <span class="skill-tag"><%= skill %></span>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="section-title"><span>3</span> Work Experience</div>
+      <div class="dynamic-section">
+        <% parsedResume.workExperience.forEach((work, index) => { %>
+          <div class="dynamic-item">
+            <div class="form-grid">
+              <div class="form-group">
+                <label><span class="number-prefix">7.</span> Organization / Company</label>
+                <input type="text" name="workExperience[<%= index %>][company]" value="<%= work.company %>" placeholder="Organization name">
+              </div>
+              <div class="form-group">
+                <label><span class="number-prefix">8.</span> Job Role / Position</label>
+                <input type="text" name="workExperience[<%= index %>][role]" value="<%= work.role %>" placeholder="Your role">
+              </div>
+              <div class="form-group full-width">
+                <label><span class="number-prefix">9.</span> Duration / Timeline</label>
+                <input type="text" name="workExperience[<%= index %>][duration]" value="<%= work.duration %>" placeholder="e.g. Jan 2021 - Present">
+              </div>
+            </div>
           </div>
+        <% }) %>
+        <% if (parsedResume.workExperience.length === 0) { %>
+          <p style="color: var(--text-muted); text-align: center;">No work experience detected. Add items to your resume to populate this section.</p>
         <% } %>
-
-        <form id="resumeForm" action="/update-resume/<%= userId %>" method="POST">
-          
-          <!-- Basic Fields -->
-          <div class="form-group icon-input">
-            <label><i class="fas fa-user"></i> Full Name</label>
-            <input type="text" id="name" name="name" value="<%= parsedResume.name || userName %>" placeholder="Your full name" />
-          </div>
-
-          <div class="form-group icon-input">
-            <label><i class="fas fa-envelope"></i> Email Address</label>
-            <input type="email" id="email" name="email" value="<%= parsedResume.email %>" placeholder="Your email address" />
-          </div>
-
-          <div class="form-group icon-input">
-            <label><i class="fas fa-phone"></i> Phone Number</label>
-            <input type="text" id="phone" name="phone" value="<%= parsedResume.phone %>" placeholder="Your phone number" />
-          </div>
-
-          <div class="form-group icon-input">
-            <label><i class="fab fa-linkedin"></i> LinkedIn Profile</label>
-            <input type="text" id="linkedIn" name="linkedIn" value="<%= parsedResume.linkedIn %>" placeholder="Your LinkedIn URL" />
-          </div>
-
-          <div class="form-group icon-input">
-            <label><i class="fab fa-github"></i> GitHub Profile</label>
-            <input type="text" id="github" name="github" value="<%= parsedResume.github %>" placeholder="Your GitHub URL" />
-          </div>
-
-          <!-- Skills -->
-          <div class="section-title">Professional Skills</div>
-          <div class="form-group">
-            <label>List your skills (comma separated)</label>
-            <textarea id="skills" name="skills" rows="3" placeholder="e.g. JavaScript, React, Node.js"><%= parsedResume.skills.join(", ") %></textarea>
-            
-            <div class="skills-tags">
-              <% parsedResume.skills.slice(0, 5).forEach(skill => { %>
-                <span class="skill-tag"><%= skill %></span>
-              <% }) %>
-              <% if (parsedResume.skills.length > 5) { %>
-                <span class="skill-tag">+<%= parsedResume.skills.length - 5 %> more</span>
-              <% } %>
-            </div>
-          </div>
-
-          <!-- Work Experience -->
-          <div class="section-title">Work Experience</div>
-          <% parsedResume.workExperience.forEach((work, index) => { %>
-            <div class="work-experience-item">
-              <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" name="workExperience[<%= index %>][company]" value="<%= work.company %>" placeholder="Company name" />
-              </div>
-              <div class="form-group">
-                <label>Job Title</label>
-                <input type="text" name="workExperience[<%= index %>][role]" value="<%= work.role %>" placeholder="Your role" />
-              </div>
-              <div class="form-group">
-                <label>Duration</label>
-                <input type="text" name="workExperience[<%= index %>][duration]" value="<%= work.duration %>" placeholder="e.g. Jan 2020 - Present" />
-              </div>
-            </div>
-          <% }) %>
-
-          <!-- Education -->
-          <div class="section-title">Education Background</div>
-          <% parsedResume.education.forEach((edu, index) => { %>
-            <div class="education-item">
-              <div class="form-group">
-                <label>Degree/Certification</label>
-                <input type="text" name="education[<%= index %>][degree]" value="<%= edu.degree %>" placeholder="Your degree" />
-              </div>
-              <div class="form-group">
-                <label>Institution</label>
-                <input type="text" name="education[<%= index %>][university]" value="<%= edu.university %>" placeholder="University/College name" />
-              </div>
-              <div class="form-group">
-                <label>Graduation Year</label>
-                <input type="text" name="education[<%= index %>][graduationYear]" value="<%= edu.graduationYear %>" placeholder="Year of graduation" />
-              </div>
-            </div>
-          <% }) %>
-
-          <div class="form-buttons">
-            <button type="submit" class="btn btn-primary">
-              <i class="fas fa-save"></i> Save Resume
-            </button>
-          </div>
-        </form>
       </div>
-    </div>
+
+      <div class="section-title"><span>4</span> Education Background</div>
+      <div class="dynamic-section" style="border-top: 5px solid #f0f0f0;">
+        <% parsedResume.education.forEach((edu, index) => { %>
+          <div class="dynamic-item">
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label><span class="number-prefix">10.</span> Institution / University</label>
+                <input type="text" name="education[<%= index %>][university]" value="<%= edu.university %>" placeholder="University name">
+              </div>
+              <div class="form-group">
+                <label><span class="number-prefix">11.</span> Degree / Qualification</label>
+                <input type="text" name="education[<%= index %>][degree]" value="<%= edu.degree %>" placeholder="e.g. B.Tech in CS">
+              </div>
+              <div class="form-group">
+                <label><span class="number-prefix">12.</span> Graduation Year</label>
+                <input type="text" name="education[<%= index %>][graduationYear]" value="<%= edu.graduationYear %>" placeholder="Year">
+              </div>
+            </div>
+          </div>
+        <% }) %>
+        <% if (parsedResume.education.length === 0) { %>
+          <p style="color: var(--text-muted); text-align: center;">No education history detected.</p>
+        <% } %>
+      </div>
+
+      <div class="save-button-container">
+        <button type="submit" class="btn-submit">Save Profile Changes</button>
+      </div>
+
+    </form>
   </div>
 </body>
 </html>

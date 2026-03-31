@@ -9,13 +9,13 @@ import CentreContent from './Components/CentreContent';
 import Login from './Components/Login/Login';
 
 function App() {
-  
+
   const [file, setFile] = useState(null);
   const [parsedData, setParsedData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const[userID,setUserId] = useState(null);
- 
+  const [userID, setUserId] = useState(null);
+
 
   useEffect(() => {
     if (typeof chrome !== 'undefined' && chrome.storage) {
@@ -28,7 +28,7 @@ function App() {
       });
     }
   }, []);
-  
+
 
 
   // Handle file selection
@@ -64,38 +64,38 @@ function App() {
     }
   };
 
- 
+
 
   const handleSaveToDashboard = async () => {
     if (!isLoggedIn) {
       alert("Please log in to save to your dashboard.");
       return;
     }
-  
+
     if (!parsedData) {
       alert("No parsed data to save.");
       return;
     }
-  
+
     try {
       // Get user data from Chrome storage to get the user ID
       const data = await new Promise((resolve) => {
         chrome.storage.local.get("userData", resolve);
       });
-  
+
       const userId = data.userData?.user?._id;
-    
+
       if (!userId) {
         alert("User ID is missing. Please log in again.");
         return;
       }
-  
+
       // Send parsed data and user ID to the backend to save it
       const response = await axios.post("http://localhost:5000/api/save-parsed-resume", {
         userId,
         parsedData,
       });
-  
+
       alert("Parsed resume saved successfully!");
       console.log("Updated parsed resumes:", response.data.parsedResumes);
     } catch (error) {
@@ -105,26 +105,22 @@ function App() {
   };
 
 
- 
-  
 
-  
+
+
+
   // Trigger autofill on current webpage by sending message to content script
   const handleAutofill = async () => {
     try {
-      const userId = userID; // Replace with actual user ID, or fetch from storage
-      console.log("Sending request to backend with userId:", userId);
+      const userId = userID;
 
-      // Fetch parsed resume from backend
       const response = await fetch("http://localhost:5000/api/getparsedresume", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId }), // Send userId to get the resume data
+        body: JSON.stringify({ userId }),
       });
-
-      console.log("Response status:", response.status);
 
       if (!response.ok) {
         console.error("Server returned error:", response.status);
@@ -132,43 +128,39 @@ function App() {
       }
 
       const data = await response.json();
-      console.log("Response data received:", data);
 
       if (!data || !data.parsedResume) {
         console.error("No parsed data received from backend");
         return;
       }
 
-      console.log("Parsed resume data received:", data);
-  
-      // Get the active tab
+      // ✅ Get active tab
       const tabs = await new Promise((resolve) => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => resolve(tabs));
+        chrome.tabs.query({ active: true, currentWindow: true }, resolve);
       });
 
-      if (tabs.length === 0) {
-        console.error("No active tab found");
-        return;
-      }
+      if (!tabs.length) return;
 
-      // Send parsed resume data to content script
       const tabId = tabs[0].id;
-      const message = { action: "autofill", data: data.parsedResume };
 
-      chrome.tabs.sendMessage(tabId, message, (response) => {
-        if (chrome.runtime.lastError) {
-          console.error("Error sending message:", chrome.runtime.lastError);
-        } else {
-          console.log("Data sent to content script for autofill");
-        }
-      });
+      // ✅ STEP 1: Reload the page
+      chrome.tabs.reload(tabId);
+
+      // ✅ STEP 2: Wait for reload to complete
+      setTimeout(() => {
+        chrome.tabs.sendMessage(tabId, {
+          action: "autofill",
+          data: data.parsedResume,
+        });
+      }, 2000); // adjust delay if needed
+
     } catch (error) {
       console.error("Error during autofill process:", error);
     }
-};
+  };
 
-  
-  
+
+
 
   // Add this to handle login success
   const handleLoginSuccess = () => {
@@ -182,8 +174,8 @@ function App() {
       }
     });
   };
-  
-  
+
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     // Update Chrome Storage so it persists across extension reloads
@@ -209,14 +201,14 @@ function App() {
         handleFileChange={handleFileChange}
         userId={userID}
         handleAutofill={handleAutofill}
-        />
+      />
 
       <ParsedDataDisplay
         parsedData={parsedData}
-       
-        
+
+
         handleSaveToDashboard={handleSaveToDashboard}
-         />
+      />
     </div>
   ) : (
     <Login onLoginSuccess={handleLoginSuccess} />

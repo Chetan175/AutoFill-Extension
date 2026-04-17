@@ -3,331 +3,870 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <title>Resumate - Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Resumate — Profile</title>
   <style>
     :root {
-      --primary: #76b900; /* NVIDIA Green */
-      --text-main: #000000;
-      --text-muted: #666666;
-      --border: #d1d1d1;
-      --bg: #ffffff;
-      --font-family: 'Inter', sans-serif;
+      /* Professional Light Theme Colors */
+      --primary: #2563eb; 
+      --primary-dim: rgba(37, 99, 235, 0.08);
+      --primary-glow: rgba(37, 99, 235, 0.15);
+      --primary-hover: #1d4ed8;
+      
+      /* Slightly darker background so the white cards pop */
+      --bg: #f1f5f9; 
+      --bg2: #ffffff;
+      
+      --border-light: #e2e8f0;
+      --border-strong: #cbd5e1;
+      
+      --text: #0f172a; 
+      --muted: #475569;
+      --muted2: #94a3b8;
+      
+      --card: #ffffff;
+      --input-bg: #f8fafc; /* Very subtle gray for inputs */
+      --input-border: #e2e8f0;
+      --danger: #ef4444;
+      
+      --font-main: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: var(--font-family);
-      background-color: var(--bg);
-      color: var(--text-main);
-      line-height: 1.6;
-      padding: 40px 20px;
+      font-family: var(--font-main);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* ── ANIMATED BACKGROUND ── */
+    .bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-canvas::before {
+      content: '';
+      position: absolute;
+      width: 900px; height: 900px;
+      top: -300px; left: -200px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, transparent 70%);
+      animation: drift1 18s ease-in-out infinite alternate;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    @keyframes drift1 { to { transform: translate(80px, 60px) scale(1.15); } }
+
+    /* ── LAYOUT ── */
+    .layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      padding: 40px 24px;
+      border-right: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
     }
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    header h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      letter-spacing: -2px;
-      margin-bottom: 20px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .form-container {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .section-title {
-      font-size: 1.8rem;
+    .logo {
+      font-size: 1.4rem;
       font-weight: 700;
-      margin: 40px 0 20px;
-      padding-bottom: 15px;
-      border-bottom: 2px solid #f0f0f0;
-      color: var(--text-main);
+      margin-bottom: 50px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 10px;
+      color: var(--text);
     }
 
-    .section-title span {
+    .logo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
       background: var(--primary);
-      color: white;
-      width: 32px;
-      height: 32px;
+    }
+
+    .nav-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted2);
+      margin-bottom: 16px;
+    }
+
+    .nav-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+
+    .nav-item a {
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-radius: 4px;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .nav-item a:hover {
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .nav-item.active a {
+      color: var(--primary);
+      background: var(--primary-dim);
+      font-weight: 600;
+    }
+
+    .nav-icon {
+      width: 18px; height: 18px;
+      display: flex; align-items: center; justify-content: center;
       font-size: 1rem;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 40px;
-      row-gap: 30px;
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
     }
 
-    @media (max-width: 768px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    .form-group label {
-      font-size: 1.05rem;
+    .progress-label {
+      font-size: 0.85rem;
       font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    .form-group input, .form-group textarea {
-      padding: 14px 18px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 1.1rem;
-      background-color: #fcfcfc;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .form-group input:focus, .form-group textarea:focus {
-      outline: none;
-      border-color: var(--text-main);
-      background-color: #fff;
-    }
-
-    .dynamic-section {
-      background: #fafafa;
-      border-radius: 8px;
-      padding: 30px;
-      margin-bottom: 30px;
-    }
-
-    .dynamic-item {
+      color: var(--muted);
+      margin-bottom: 10px;
       display: flex;
-      flex-direction: column;
-      gap: 25px;
-      padding: 25px;
-      background: white;
-      border: 1px solid #eeeeee;
-      border-radius: 6px;
-      margin-bottom: 20px;
+      justify-content: space-between;
     }
 
-    .alert {
-      padding: 20px;
-      border-radius: 6px;
-      margin-bottom: 40px;
-      text-align: center;
+    .progress-bar {
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 99px;
+      width: 72%;
+      transition: width 0.5s ease;
+    }
+
+    /* ── MAIN CONTENT (Centered and Wider) ── */
+    .main {
+      padding: 60px 64px;
+      width: 100%;
+      max-width: 1000px; /* Made wider */
+      margin: 0 auto; /* Centers the content in the middle of the available space */
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .page-eyebrow {
+      font-size: 0.85rem;
       font-weight: 600;
-      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      font-weight: 400;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── ALERT BOX ── */
+    .alert {
+      padding: 16px 24px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fadeUp 0.4s ease both;
     }
 
     .alert-success {
-      background-color: #e6fffa;
-      color: #2c7a7b;
-      border: 1px solid #b2f5ea;
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
     }
 
     .alert-error {
-      background-color: #fff5f5;
-      color: #c53030;
-      border: 1px solid #feb2b2;
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
     }
 
-    .save-button-container {
-      margin-top: 60px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .btn-submit {
-      background-color: var(--text-main);
-      color: #ffffff;
-      padding: 18px 50px;
-      font-size: 1.2rem;
-      font-weight: 700;
+    /* ── FLOATING CARDS ── */
+    .ui-card {
+      background: var(--card);
       border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
+      border-radius: 24px;
+      padding: 32px 32px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); 
+      position: relative;
+      animation: fadeUp 0.4s ease both;
     }
 
-    .btn-submit:hover {
-      background-color: #333333;
+    .dyn-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .btn-submit:active {
-      transform: scale(0.98);
+    .dyn-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
     }
 
-    .skills-container {
+    .card-number {
+      position: absolute;
+      top: 0; left: 32px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      background: var(--primary-dim);
+      padding: 4px 12px;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+
+    /* Changed to display: grid to strictly enforce spacing and stop overlaps */
+    .cards-stack { 
+      display: grid; 
+      gap: 32px; 
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 56px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-left: 8px;
+    }
+
+    .section-badge {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-dim);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    /* ── FORM GRID ── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .full-width { grid-column: 1 / -1; }
+
+    /* ── FORM GROUP ── */
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* ── FORM INPUTS ── */
+    .form-group input,
+    .form-group textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: all 0.2s ease;
+      outline: none;
+      resize: vertical;
+      box-shadow: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--muted2); }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px var(--primary-dim);
+    }
+
+    .form-group input:hover,
+    .form-group textarea:hover {
+      border-color: var(--border-strong);
+    }
+
+    /* ── SKILLS TAGS ── */
+    .skills-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
+      gap: 8px;
+      margin-top: 16px;
     }
 
     .skill-tag {
+      font-size: 0.85rem;
+      font-weight: 500;
       padding: 6px 14px;
-      background: #eeeeee;
-      border-radius: 4px;
+      border-radius: 6px;
+      background: var(--primary-dim);
+      color: var(--primary);
+      border: 1px solid var(--primary-glow);
+    }
+
+    /* ── BUTTONS ── */
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .btn-remove {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      background: #fef2f2;
+      color: var(--danger);
+      font-family: var(--font-main);
       font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-remove:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+    }
+
+    .btn-add {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      border: 1px dashed var(--border-strong);
+      border-radius: 16px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      justify-content: center;
+      margin-top: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add:hover {
+      background: var(--primary-dim);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .empty-state {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      border: 1px dashed var(--border-strong);
+      border-radius: 16px;
+      background: transparent;
+    }
+
+    .empty-state svg { margin-bottom: 16px; opacity: 0.5; }
+
+    /* ── SUBMIT ── */
+    .submit-section {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .submit-note {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 400px;
+    }
+
+    .btn-submit {
+      padding: 14px 36px;
+      background: var(--primary);
+      color: #ffffff;
+      font-family: var(--font-main);
+      font-size: 1rem;
       font-weight: 600;
-      color: var(--text-muted);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
     }
 
-    .number-prefix {
-      color: var(--text-muted);
-      margin-right: 8px;
+    .btn-submit:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
     }
 
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted2); }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Resumate Profile</h1>
-      <p>Clean, efficient, and professional profile management. Manage your data exactly how leading companies see it.</p>
-    </header>
 
-    <% if (message) { %>
-      <div class="alert <%= isSuccess ? 'alert-success' : 'alert-error' %>">
-        <%= message %>
+<div class="bg-canvas"></div>
+<div class="grid-overlay"></div>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-dot"></div>
+      Resumate
+    </div>
+
+    <div class="nav-label">Navigation</div>
+    <ul class="nav-list">
+      <li class="nav-item active">
+        <a href="#basics">
+          <span class="nav-icon">◈</span> Basic Info
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#skills">
+          <span class="nav-icon">◇</span> Skills
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#work">
+          <span class="nav-icon">◫</span> Experience
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#education">
+          <span class="nav-icon">◬</span> Education
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="progress-label">
+        <span>Profile strength</span>
+        <span style="color:var(--primary)">72%</span>
       </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-eyebrow">✦ Your Profile</div>
+      <h1 class="page-title">Profile Dashboard</h1>
+      <p class="page-subtitle">Manage your resume data exactly how leading companies want to see it. Every field matters.</p>
+    </div>
+
+    <% if (typeof message !== 'undefined' && message) { %>
+    <div class="alert <%= (typeof isSuccess !== 'undefined' && (isSuccess === true || isSuccess === 'true')) ? 'alert-success' : 'alert-error' %>">
+      <%= (typeof isSuccess !== 'undefined' && (isSuccess === true || isSuccess === 'true')) ? '✓' : '✕' %> &nbsp;<%= message %>
+    </div>
     <% } %>
 
-    <form action="/update-resume/<%= userId %>" method="POST" class="form-container">
-      
-      <div class="section-title"><span>1</span> Basic Information</div>
-      <div class="form-grid">
-        <div class="form-group full-width">
-          <label><span class="number-prefix">1.</span> Full Name *</label>
-          <input type="text" name="name" value="<%= parsedResume.name || userName %>" placeholder="e.g. Darshit Khandelwal" required>
+    <form action="/update-resume/<%= userId %>" method="POST" id="resumeForm">
+
+      <div class="section" id="basics">
+        <div class="section-header">
+          <span class="section-badge">01</span>
+          <h2 class="section-title">Basic Information</h2>
+          <div class="section-line"></div>
         </div>
 
-        <div class="form-group">
-          <label><span class="number-prefix">2.</span> Email Address *</label>
-          <input type="email" name="email" value="<%= parsedResume.email %>" placeholder="e.g. name@example.com" required>
-        </div>
-
-        <div class="form-group">
-          <label><span class="number-prefix">3.</span> Contact Phone</label>
-          <input type="text" name="phone" value="<%= parsedResume.phone %>" placeholder="e.g. +91 00000 00000">
-        </div>
-
-        <div class="form-group">
-          <label><span class="number-prefix">4.</span> LinkedIn Profile</label>
-          <input type="text" name="linkedIn" value="<%= parsedResume.linkedIn %>" placeholder="linkedin.com/in/username">
-        </div>
-
-        <div class="form-group">
-          <label><span class="number-prefix">5.</span> GitHub Profile</label>
-          <input type="text" name="github" value="<%= parsedResume.github %>" placeholder="github.com/username">
+        <div class="ui-card">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label>Full Name *</label>
+              <input type="text" name="name" value="<%= parsedResume.name || userName %>" placeholder="e.g. Darshit Khandelwal" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" name="email" value="<%= parsedResume.email %>" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+              <label>Contact Phone</label>
+              <input type="text" name="phone" value="<%= parsedResume.phone %>" placeholder="+91 00000 00000">
+            </div>
+            <div class="form-group">
+              <label>LinkedIn Profile</label>
+              <input type="text" name="linkedIn" value="<%= parsedResume.linkedIn %>" placeholder="linkedin.com/in/username">
+            </div>
+            <div class="form-group">
+              <label>GitHub Profile</label>
+              <input type="text" name="github" value="<%= parsedResume.github %>" placeholder="github.com/username">
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="section-title"><span>2</span> Skills & Competencies</div>
-      <div class="form-group">
-        <label><span class="number-prefix">6.</span> Professional Skills (comma separated)</label>
-        <textarea name="skills" rows="4" placeholder="e.g. React, Node.js, Python, AWS"><%= parsedResume.skills.join(", ") %></textarea>
-        <div class="skills-container">
-          <% parsedResume.skills.slice(0, 10).forEach(skill => { %>
-            <span class="skill-tag"><%= skill %></span>
+      <div class="section" id="skills">
+        <div class="section-header">
+          <span class="section-badge">02</span>
+          <h2 class="section-title">Skills & Competencies</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="ui-card">
+          <div class="form-group">
+            <label>Professional Skills <span style="color:var(--muted2);font-weight:400;">(comma separated)</span></label>
+            <textarea name="skills" rows="3" id="skillsInput" placeholder="React, Node.js, Python, AWS"><%= parsedResume.skills.join(", ") %></textarea>
+          </div>
+          <div class="skills-tags" id="skillsPreview">
+            <% parsedResume.skills.slice(0, 12).forEach(skill => { %>
+              <span class="skill-tag"><%= skill.trim() %></span>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="work">
+        <div class="section-header">
+          <span class="section-badge">03</span>
+          <h2 class="section-title">Work Experience</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="cards-stack" id="workCards">
+          <% if (parsedResume.workExperience.length === 0) { %>
+            <div class="empty-state" id="workEmpty">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              <br>No experience added yet. Hit the button below.
+            </div>
+          <% } %>
+          <% parsedResume.workExperience.forEach((work, index) => { %>
+            <div class="ui-card dyn-card" data-index="<%= index %>">
+              <span class="card-number">Experience <%= index + 1 %></span>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Organization / Company</label>
+                  <input type="text" name="workExperience[<%= index %>][company]" value="<%= work.company %>" placeholder="Company name">
+                </div>
+                <div class="form-group">
+                  <label>Job Role / Position</label>
+                  <input type="text" name="workExperience[<%= index %>][role]" value="<%= work.role %>" placeholder="Your role">
+                </div>
+                <div class="form-group full-width">
+                  <label>Duration / Timeline</label>
+                  <input type="text" name="workExperience[<%= index %>][duration]" value="<%= work.duration %>" placeholder="Jan 2022 – Present">
+                </div>
+              </div>
+              <div class="card-actions">
+                <button type="button" class="btn-remove" onclick="removeCard(this, 'work')">
+                  ✕ &nbsp;Remove
+                </button>
+              </div>
+            </div>
           <% }) %>
         </div>
+
+        <button type="button" class="btn-add" onclick="addWorkCard()">
+          + &nbsp;Add Work Experience
+        </button>
       </div>
 
-      <div class="section-title"><span>3</span> Work Experience</div>
-      <div class="dynamic-section">
-        <% parsedResume.workExperience.forEach((work, index) => { %>
-          <div class="dynamic-item">
-            <div class="form-grid">
-              <div class="form-group">
-                <label><span class="number-prefix">7.</span> Organization / Company</label>
-                <input type="text" name="workExperience[<%= index %>][company]" value="<%= work.company %>" placeholder="Organization name">
+      <div class="section" id="education">
+        <div class="section-header">
+          <span class="section-badge">04</span>
+          <h2 class="section-title">Education Background</h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="cards-stack" id="eduCards">
+          <% if (parsedResume.education.length === 0) { %>
+            <div class="empty-state" id="eduEmpty">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <br>No education added yet. Hit the button below.
+            </div>
+          <% } %>
+          <% parsedResume.education.forEach((edu, index) => { %>
+            <div class="ui-card dyn-card" data-index="<%= index %>">
+              <span class="card-number">Education <%= index + 1 %></span>
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label>Institution / University</label>
+                  <input type="text" name="education[<%= index %>][university]" value="<%= edu.university %>" placeholder="University name">
+                </div>
+                <div class="form-group">
+                  <label>Degree / Qualification</label>
+                  <input type="text" name="education[<%= index %>][degree]" value="<%= edu.degree %>" placeholder="e.g. B.Tech in CS">
+                </div>
+                <div class="form-group">
+                  <label>Graduation Year</label>
+                  <input type="text" name="education[<%= index %>][graduationYear]" value="<%= edu.graduationYear %>" placeholder="Year">
+                </div>
               </div>
-              <div class="form-group">
-                <label><span class="number-prefix">8.</span> Job Role / Position</label>
-                <input type="text" name="workExperience[<%= index %>][role]" value="<%= work.role %>" placeholder="Your role">
-              </div>
-              <div class="form-group full-width">
-                <label><span class="number-prefix">9.</span> Duration / Timeline</label>
-                <input type="text" name="workExperience[<%= index %>][duration]" value="<%= work.duration %>" placeholder="e.g. Jan 2021 - Present">
+              <div class="card-actions">
+                <button type="button" class="btn-remove" onclick="removeCard(this, 'edu')">
+                  ✕ &nbsp;Remove
+                </button>
               </div>
             </div>
-          </div>
-        <% }) %>
-        <% if (parsedResume.workExperience.length === 0) { %>
-          <p style="color: var(--text-muted); text-align: center;">No work experience detected. Add items to your resume to populate this section.</p>
-        <% } %>
+          <% }) %>
+        </div>
+
+        <button type="button" class="btn-add" onclick="addEduCard()">
+          + &nbsp;Add Education
+        </button>
       </div>
 
-      <div class="section-title"><span>4</span> Education Background</div>
-      <div class="dynamic-section" style="border-top: 5px solid #f0f0f0;">
-        <% parsedResume.education.forEach((edu, index) => { %>
-          <div class="dynamic-item">
-            <div class="form-grid">
-              <div class="form-group full-width">
-                <label><span class="number-prefix">10.</span> Institution / University</label>
-                <input type="text" name="education[<%= index %>][university]" value="<%= edu.university %>" placeholder="University name">
-              </div>
-              <div class="form-group">
-                <label><span class="number-prefix">11.</span> Degree / Qualification</label>
-                <input type="text" name="education[<%= index %>][degree]" value="<%= edu.degree %>" placeholder="e.g. B.Tech in CS">
-              </div>
-              <div class="form-group">
-                <label><span class="number-prefix">12.</span> Graduation Year</label>
-                <input type="text" name="education[<%= index %>][graduationYear]" value="<%= edu.graduationYear %>" placeholder="Year">
-              </div>
-            </div>
-          </div>
-        <% }) %>
-        <% if (parsedResume.education.length === 0) { %>
-          <p style="color: var(--text-muted); text-align: center;">No education history detected.</p>
-        <% } %>
-      </div>
-
-      <div class="save-button-container">
-        <button type="submit" class="btn-submit">Save Profile Changes</button>
+      <div class="submit-section">
+        <!-- <p class="submit-note">All changes are saved to your profile and used to tailor your applications.</p> -->
+        <button type="submit" class="btn-submit ">Save Profile</button>
       </div>
 
     </form>
-  </div>
+  </main>
+</div>
+
+<script>
+  // ── SKILLS LIVE PREVIEW ──
+  const skillsInput = document.getElementById('skillsInput');
+  const skillsPreview = document.getElementById('skillsPreview');
+
+  function renderSkills(val) {
+    const skills = val.split(',').map(s => s.trim()).filter(Boolean);
+    skillsPreview.innerHTML = skills.slice(0, 15).map(s =>
+      `<span class="skill-tag">${s}</span>`
+    ).join('');
+  }
+
+  skillsInput.addEventListener('input', () => renderSkills(skillsInput.value));
+
+  // ── WORK EXPERIENCE: ADD ──
+  let workCount = <%= parsedResume.workExperience.length %>;
+
+  function addWorkCard() {
+    const empty = document.getElementById('workEmpty');
+    if (empty) empty.remove();
+
+    const idx = workCount++;
+    const card = document.createElement('div');
+    card.className = 'ui-card dyn-card';
+    card.setAttribute('data-index', idx);
+    card.innerHTML = `
+      <span class="card-number">Experience ${idx + 1}</span>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Organization / Company</label>
+          <input type="text" name="workExperience[${idx}][company]" placeholder="Company name">
+        </div>
+        <div class="form-group">
+          <label>Job Role / Position</label>
+          <input type="text" name="workExperience[${idx}][role]" placeholder="Your role">
+        </div>
+        <div class="form-group full-width">
+          <label>Duration / Timeline</label>
+          <input type="text" name="workExperience[${idx}][duration]" placeholder="Jan 2022 – Present">
+        </div>
+      </div>
+      <div class="card-actions">
+        <button type="button" class="btn-remove" onclick="removeCard(this, 'work')">✕ &nbsp;Remove</button>
+      </div>`;
+    document.getElementById('workCards').appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    updateProgress();
+  }
+
+  // ── EDUCATION: ADD ──
+  let eduCount = <%= parsedResume.education.length %>;
+
+  function addEduCard() {
+    const empty = document.getElementById('eduEmpty');
+    if (empty) empty.remove();
+
+    const idx = eduCount++;
+    const card = document.createElement('div');
+    card.className = 'ui-card dyn-card';
+    card.setAttribute('data-index', idx);
+    card.innerHTML = `
+      <span class="card-number">Education ${idx + 1}</span>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Institution / University</label>
+          <input type="text" name="education[${idx}][university]" placeholder="University name">
+        </div>
+        <div class="form-group">
+          <label>Degree / Qualification</label>
+          <input type="text" name="education[${idx}][degree]" placeholder="e.g. B.Tech in CS">
+        </div>
+        <div class="form-group">
+          <label>Graduation Year</label>
+          <input type="text" name="education[${idx}][graduationYear]" placeholder="Year">
+        </div>
+      </div>
+      <div class="card-actions">
+        <button type="button" class="btn-remove" onclick="removeCard(this, 'edu')">✕ &nbsp;Remove</button>
+      </div>`;
+    document.getElementById('eduCards').appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    updateProgress();
+  }
+
+  // ── REMOVE CARD ──
+  function removeCard(btn, type) {
+    const card = btn.closest('.ui-card');
+    card.style.transition = 'opacity 0.2s, transform 0.2s';
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(-10px)';
+    setTimeout(() => {
+      card.remove();
+      reindexCards(type);
+      updateProgress();
+    }, 200);
+  }
+
+  function reindexCards(type) {
+    const containerId = type === 'work' ? 'workCards' : 'eduCards';
+    const prefix = type === 'work' ? 'workExperience' : 'education';
+    const label = type === 'work' ? 'Experience' : 'Education';
+    const cards = document.querySelectorAll(`#${containerId} .ui-card`);
+    cards.forEach((card, i) => {
+      card.setAttribute('data-index', i);
+      const badge = card.querySelector('.card-number');
+      if (badge) badge.textContent = `${label} ${i + 1}`;
+      card.querySelectorAll('input').forEach(input => {
+        input.name = input.name.replace(/\[\d+\]/, `[${i}]`);
+      });
+    });
+  }
+
+  // ── PROGRESS BAR ──
+  function updateProgress() {
+    const inputs = document.querySelectorAll('#resumeForm input, #resumeForm textarea');
+    const filled = [...inputs].filter(i => i.value.trim() !== '').length;
+    const pct = Math.min(100, Math.round((filled / inputs.length) * 100));
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.querySelector('.progress-label span:last-child').textContent = pct + '%';
+  }
+
+  document.querySelectorAll('#resumeForm input, #resumeForm textarea').forEach(el => {
+    el.addEventListener('input', updateProgress);
+  });
+
+  updateProgress();
+
+  // ── ACTIVE NAV ON SCROLL ──
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const id = entry.target.id;
+        const active = document.querySelector(`.nav-item a[href="#${id}"]`);
+        if (active) active.closest('.nav-item').classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
 </body>
 </html>

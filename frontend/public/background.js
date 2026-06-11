@@ -3,59 +3,104 @@
 
 
 const HF_API_KEY = (typeof process !== 'undefined' && process.env && process.env.REACT_APP_HF_API_KEY) || '';
+const HF_CHAT_URL = "https://router.huggingface.co/v1/chat/completions";
+const HF_MODEL = "mistralai/Mistral-7B-Instruct-v0.3";
 
 
 async function callAI(fields, resume) {
-  const prompt = `
-You are an AI that maps job application form fields to resume data.
+  const compactFields = (fields || []).map((field) => ({
+    index: field.index,
+    tag: field.tag,
+    type: field.type,
+    name: field.name,
+    id: field.id,
+    placeholder: field.placeholder,
+    label: field.label
+  }));
+
+  const prompt = `Map job application form fields to resume data.
 
 Resume JSON:
-${JSON.stringify(resume, null, 2)}
+${JSON.stringify(resume || {})}
 
 Form Fields JSON:
-${JSON.stringify(fields, null, 2)}
+${JSON.stringify(compactFields)}
 
-Return ONLY valid JSON in this format:
+Return only valid JSON in this format:
 {
   "0": "name",
   "1": "email",
   "2": "phone"
 }
 
-Skip fields you are unsure about.
-`;
+Skip fields you are unsure about.`;
 
-  const response = await fetch(
-    "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2",
-    {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${HF_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        inputs: prompt,
-        parameters: { temperature: 0 }
-      })
-    }
-  );
-
-  const result = await response.json();
-
-  // Be permissive about where the model text might live
-  const text = result?.[0]?.generated_text || result?.generated_text || JSON.stringify(result || "");
-  const match = typeof text === "string" ? text.match(/\{[\s\S]*\}/) : null;
-
-  let mapping = {};
   try {
-    if (match) mapping = JSON.parse(match[0]);
-  } catch (err) {
-    console.warn("callAI: failed to parse mapping JSON from model output", err, text);
-    mapping = {};
-  }
+    const response = await fetch(
+      HF_CHAT_URL,
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${HF_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: HF_MODEL,
+          messages: [
+            {
+              role: "system",
+              content: "You map job application fields to resume keys and return only a JSON object."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+          temperature: 0,
+          max_tokens: 120
+        })
+      }
+    );
 
-  // Return mapping plus raw result for debugging
-  return { mapping, raw: result, rawText: text };
+    const rawText = await response.text();
+    let result = null;
+
+    try {
+      result = rawText ? JSON.parse(rawText) : null;
+    } catch (_err) {
+      result = null;
+    }
+
+    if (!response.ok) {
+      return { mapping: {}, raw: result, rawText, aiAvailable: false };
+    }
+
+    const text =
+      result?.choices?.[0]?.message?.content ||
+      result?.choices?.[0]?.text ||
+      result?.[0]?.generated_text ||
+      result?.generated_text ||
+      rawText ||
+      "";
+    const match = typeof text === "string" ? text.match(/\{[\s\S]*\}/) : null;
+
+    let mapping = {};
+    try {
+      if (match) mapping = JSON.parse(match[0]);
+    } catch (err) {
+      console.warn("callAI: failed to parse mapping JSON from model output", err, text);
+      mapping = {};
+    }
+
+    return { mapping, raw: result, rawText: text, aiAvailable: true };
+  } catch (err) {
+    return {
+      mapping: {},
+      raw: null,
+      rawText: err instanceof Error ? err.message : String(err),
+      aiAvailable: false
+    };
+  }
 }
 
 // Simple heuristic mapper: looks for keywords in field label/name/id/placeholder
@@ -107,7 +152,11 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
 
         const aiResult = await callAI(msg.fields, msg.resume);
         const mapping = aiResult.mapping || {};
-        console.log("background.js AI mapping result:", mapping, "raw:", aiResult.raw, "rawText:", aiResult.rawText);
+        if (aiResult.aiAvailable) {
+          console.log("background.js AI mapping result:", mapping, "raw:", aiResult.raw, "rawText:", aiResult.rawText);
+        } else {
+          console.log("background.js AI unavailable, trying heuristic fallback");
+        }
 
         let mappingToSend = mapping;
         let usedFallback = false;
@@ -126,20 +175,13 @@ chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
           return;
         }
 
-        chrome.tabs.sendMessage(
-          sender.tab.id,
-          {
-            action: "ai_autofill",
-            mapping: mappingToSend,
-            resume: msg.resume,
-            debug: { rawAIResult: aiResult.raw, rawAIText: aiResult.rawText, usedFallback, fallbackMapping: fallback },
-          },
-          (resp) => {
-            if (chrome.runtime.lastError)
-              console.error("background.js chrome.tabs.sendMessage error:", chrome.runtime.lastError);
-            else console.log("background.js forwarded mapping to tab", sender.tab.id, resp);
-          }
-        );
+        chrome.tabs.sendMessage(sender.tab.id, {
+          action: "ai_autofill",
+          mapping: mappingToSend,
+          resume: msg.resume,
+          debug: { rawAIResult: aiResult.raw, rawAIText: aiResult.rawText, usedFallback, fallbackMapping: fallback },
+        });
+        console.log("background.js forwarded mapping to tab", sender.tab.id);
       } catch (err) {
         console.error("AI Autofill error:", err);
       }

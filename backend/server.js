@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
@@ -7,7 +8,7 @@ const parseResumeRoute = require("./routes/parseResume"); // Route for parsing r
 const userRoute = require("./routes/user"); // User-related routes
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
@@ -83,14 +84,14 @@ app.post("/update-resume/:userId", async (req, res) => {
 // API endpoint for fetching user info (for autofiller extension)
 app.get("/api/user/:userId/info", async (req, res) => {
   const { userId } = req.params;
-  
+
   try {
     const user = await User.findById(userId).select("name email");
-    
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    
+
     return res.json({
       name: user.name,
       email: user.email

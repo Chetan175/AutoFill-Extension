@@ -3,6 +3,8 @@ const multer = require("multer");
 const pdfParse = require("pdf-parse");
 const fs = require("fs");
 const User = require("../models/user");
+const authMiddleware = require("../middleware/auth");
+
 
 const router = express.Router();
 const upload = multer({ dest: "uploads/" });
@@ -96,8 +98,9 @@ const extractEducation = (text) => {
     .filter(Boolean);
 };
 
-router.post('/save-parsed-resume', async (req, res) => {
-  const { userId, parsedData } = req.body;
+router.post('/save-parsed-resume', authMiddleware, async (req, res) => {
+  const userId = req.user.id;
+  const { parsedData } = req.body;
 
   try {
     // Find the user by ID
@@ -129,11 +132,11 @@ router.post('/save-parsed-resume', async (req, res) => {
   }
 });
 
-router.post("/getparsedresume", async (req, res) => {
+router.post("/getparsedresume", authMiddleware, async (req, res) => {
   try {
     console.log("🟢 Received request body:", req.body);
 
-    const { userId } = req.body;
+    const userId = req.user.id;
     if (!userId) {
       console.log("❌ User ID missing in request");
       return res.status(400).json({ message: "User ID is required" });
@@ -169,16 +172,16 @@ router.post("/getparsedresume", async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-      const { userId } = req.body; // Get user ID from frontend
-      const user = await User.findById(userId);
+    const { userId } = req.body; // Get user ID from frontend
+    const user = await User.findById(userId);
 
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-      res.json({ parsedResumes: user.parsedResumes });
+    res.json({ parsedResumes: user.parsedResumes });
   } catch (error) {
-      res.status(500).json({ message: "Server Error", error });
+    res.status(500).json({ message: "Server Error", error });
   }
 });
 

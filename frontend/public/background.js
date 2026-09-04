@@ -106,14 +106,16 @@ Skip fields you are unsure about.`;
 // Simple heuristic mapper: looks for keywords in field label/name/id/placeholder
 function heuristicMap(fields, resume) {
   const keywords = {
-    name: ["name", "full name", "your name"],
+    company: ["company", "employer", "organization"],
+    university: ["university", "college", "school", "institution"],
     email: ["email", "e-mail", "mail"],
     phone: ["phone", "mobile", "telephone", "tel"],
     linkedIn: ["linkedin", "linked in"],
     github: ["github"],
     skills: ["skill", "skills"],
     workExperience: ["experience", "work"],
-    education: ["education", "school", "college", "degree"],
+    education: ["degree", "education"],
+    name: ["full name", "your name", "candidate name", "applicant name", "name"],
   };
 
   const mapping = {};

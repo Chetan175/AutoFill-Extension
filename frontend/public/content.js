@@ -101,6 +101,8 @@ chrome.runtime.onMessage.addListener((msg) => {
 
       // synonyms for common fields
       const synonyms = {
+        company: ["company", "employer", "organization"],
+        university: ["university", "college", "school"],
         phone: ["phone", "mobile", "tel", "telephone"],
         email: ["email", "e-mail", "mail"],
         name: ["name", "full name"],

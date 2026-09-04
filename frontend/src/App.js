@@ -23,7 +23,7 @@ function App() {
         setIsLoggedIn(data.isLoggedIn || false);
         if (data.userData) {
           console.log("Retrieved userData from storage:", data.userData);
-          setUserId(data.userData.user?._id || null);
+          setUserId(data.userData?._id || null);
         }
       });
     }
@@ -80,21 +80,24 @@ function App() {
     try {
       // Get user data from Chrome storage to get the user ID
       const data = await new Promise((resolve) => {
-        chrome.storage.local.get("userData", resolve);
+        chrome.storage.local.get(["userData", "token"], resolve);
       });
 
-      const userId = data.userData?.user?._id;
+      const token = data.token;
 
-      if (!userId) {
-        alert("User ID is missing. Please log in again.");
+      if (!token) {
+        alert("Session expired. Please log in again.");
         return;
       }
 
       // Send parsed data and user ID to the backend to save it
-      const response = await axios.post("http://localhost:5000/api/save-parsed-resume", {
-        userId,
-        parsedData,
-      });
+      const response = await axios.post("http://localhost:5000/api/save-parsed-resume",
+        { parsedData },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
       alert("Parsed resume saved successfully!");
       console.log("Updated parsed resumes:", response.data.parsedResumes);
@@ -112,14 +115,16 @@ function App() {
   // Trigger autofill on current webpage by sending message to content script
   const handleAutofill = async () => {
     try {
-      const userId = userID;
+      const data_token = await new Promise((resolve) => {
+        chrome.storage.local.get(["token"], resolve);
+      });
 
       const response = await fetch("http://localhost:5000/api/getparsedresume", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId }),
+          "Authorization": `Bearer ${data_token.token}`
+        }
       });
 
       if (!response.ok) {
@@ -133,6 +138,12 @@ function App() {
         console.error("No parsed data received from backend");
         return;
       }
+      data.parsedResume = {
+        ...data.parsedResume,
+        university: data.parsedResume.education?.[0]?.university || "",
+        company: data.parsedResume.workExperience?.[0]?.company || "",
+        companyName: data.parsedResume.workExperience?.[0]?.company || "",
+      };
 
       // ✅ Get active tab
       const tabs = await new Promise((resolve) => {
@@ -168,7 +179,7 @@ function App() {
       if (data.isLoggedIn && data.userData) {
         console.log("User logged in, retrieved from storage:", data.userData);
         setIsLoggedIn(true);
-        setUserId(data.userData.user?._id || null);
+        setUserId(data.userData?._id || null);
       } else {
         console.warn("Login data missing in Chrome storage.");
       }
